@@ -25,6 +25,9 @@ import {
 } from '@/features/authFiles/constants';
 import { AuthFileCard } from '@/features/authFiles/components/AuthFileCard';
 import { AuthFileDetailsSheet } from '@/features/authFiles/components/AuthFileDetailsSheet';
+import { AuthFileUsageSheet } from '@/features/authFiles/components/AuthFileUsageSheet';
+import { apiClient } from '@/services/api/client';
+import type { AuthFileItem } from '@/types';
 import { getAuthFileRefreshKey } from '@/features/authFiles/manualRefresh';
 import { AuthFileRefreshResults } from '@/features/authFiles/components/AuthFileRefreshResults';
 import { AuthFileModelsModal } from '@/features/authFiles/components/AuthFileModelsModal';
@@ -99,6 +102,9 @@ export function AuthFilesPage() {
   // Compact is the page's existing compact card; it keeps its own page size.
   const compactMode = layout === 'compact';
   const [search, setSearch] = useState('');
+  const [usageTarget, setUsageTarget] = useState<{ file: AuthFileItem; revision: number } | null>(
+    null
+  );
   const [page, setPage] = useState(1);
   const [pageSizeByMode, setPageSizeByMode] = useState({
     regular: DEFAULT_REGULAR_PAGE_SIZE,
@@ -593,6 +599,7 @@ export function AuthFilesPage() {
       statusBarCache={statusBarCache}
       entranceDelayMs={cardEntranceDelay(index)}
       onShowModels={showModels}
+      onShowUsage={(file) => setUsageTarget({ file, revision: apiClient.getConnectionRevision() })}
       onDownload={handleDownload}
       onManualRefresh={handleManualRefresh}
       onCooldownReset={handleCooldownReset}
@@ -801,6 +808,11 @@ export function AuthFilesPage() {
         onCopyText={copyTextWithNotification}
         onSave={handlePrefixProxySave}
         onChange={handlePrefixProxyChange}
+      />
+
+      <AuthFileUsageSheet
+        file={usageTarget?.revision === apiClient.getConnectionRevision() ? usageTarget.file : null}
+        onClose={() => setUsageTarget(null)}
       />
 
       <BatchActionBar

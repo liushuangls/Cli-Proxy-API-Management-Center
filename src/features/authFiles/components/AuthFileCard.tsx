@@ -53,6 +53,7 @@ export type AuthFileCardProps = {
   /** One-time entrance delay; null/undefined disables entrance motion. */
   entranceDelayMs?: number | null;
   onShowModels: (file: AuthFileItem) => void;
+  onShowUsage: (file: AuthFileItem) => void;
   onDownload: (name: string) => void;
   onManualRefresh: (file: AuthFileItem) => void;
   onCooldownReset: (file: AuthFileItem) => void;
@@ -78,6 +79,7 @@ export function AuthFileCard(props: AuthFileCardProps) {
     statusBarCache,
     entranceDelayMs,
     onShowModels,
+    onShowUsage,
     onDownload,
     onManualRefresh,
     onCooldownReset,
@@ -268,6 +270,15 @@ export function AuthFileCard(props: AuthFileCardProps) {
 
       <footer className={styles.actions}>
         <div className={styles.actionsMain}>
+          <Button
+            variant="secondary"
+            size="sm"
+            onClick={() => onShowUsage(file)}
+            disabled={disableControls || !authIndexKey}
+            aria-label={t('auth_usage.open', { name: identity.primary })}
+          >
+            {t('auth_usage.title')}
+          </Button>
           {showModelsButton && (
             <Button
               variant="secondary"
