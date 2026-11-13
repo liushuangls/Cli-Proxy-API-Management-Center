@@ -20,23 +20,29 @@ type ChatMessage = TryoutMessage & { elapsedMs?: number; truncated?: boolean };
 type Props = { file: AuthFileItem | null; open: boolean; onClose: () => void };
 
 export function AuthFileTryoutSheet({ file, open, onClose }: Props) {
-  const { t } = useTranslation();
-  return (
-    <Sheet
-      open={open && file !== null}
+  return file ? (
+    <TryoutChat
+      key={String(file.authIndex)}
+      authIndex={String(file.authIndex)}
+      label={deriveAuthFileIdentity(file).primary}
+      open={open}
       onClose={onClose}
-      size="lg"
-      title={t('auth_tryout.title')}
-      description={file ? deriveAuthFileIdentity(file).primary : ''}
-    >
-      {file && (
-        <TryoutChat key={String(file.authIndex)} authIndex={String(file.authIndex)} open={open} />
-      )}
-    </Sheet>
-  );
+    />
+  ) : null;
 }
 
-function TryoutChat({ authIndex, open }: { authIndex: string; open: boolean }) {
+// Keep conversation state above Sheet: its closed portal unmounts its children.
+function TryoutChat({
+  authIndex,
+  label,
+  open,
+  onClose,
+}: {
+  authIndex: string;
+  label: string;
+  open: boolean;
+  onClose: () => void;
+}) {
   const { t } = useTranslation();
   const [models, setModels] = useState<TryoutModel[] | null>(null);
   const [modelError, setModelError] = useState('');
@@ -132,138 +138,149 @@ function TryoutChat({ authIndex, open }: { authIndex: string; open: boolean }) {
   };
 
   return (
-    <div className={styles.chat}>
-      <div className={styles.toolbar}>
-        <div className={styles.modelField}>
-          <span>{t('auth_tryout.model')}</span>
-          <Select
-            value={model}
-            options={(models ?? []).map((m) => ({
-              value: m.id,
-              label: m.label === m.id ? m.id : `${m.label} · ${m.id}`,
-            }))}
-            placeholder={t('auth_tryout.choose_model')}
-            ariaLabel={t('auth_tryout.model')}
-            disabled={!models?.length || sending || messages.length > 0}
-            onChange={setModel}
-          />
-        </div>
-        <Button
-          variant="secondary"
-          disabled={sending}
-          onClick={() => {
-            setMessages([]);
-            setDraft('');
-            setError('');
-            setNotice('');
-            setConversationId(crypto.randomUUID());
-          }}
-        >
-          {t('auth_tryout.new_chat')}
-        </Button>
-      </div>
-      <p className={styles.hint}>{t('auth_tryout.hint')}</p>
-      {modelError && (
-        <p className={styles.error} role="alert">
-          {t('auth_tryout.models_failed')}: {modelError}
-        </p>
-      )}
-      {models === null && !modelError && (
-        <p role="status">
-          <LoadingSpinner size={16} /> {t('auth_tryout.loading_models')}
-        </p>
-      )}
-      {models?.length === 0 && <p className={styles.hint}>{t('auth_tryout.no_models')}</p>}
-      <div
-        ref={transcript}
-        className={styles.transcript}
-        role="log"
-        aria-label={t('auth_tryout.transcript')}
-        aria-live="polite"
-      >
-        {messages.length === 0 && !sending && (
-          <p className={styles.empty}>{t('auth_tryout.welcome')}</p>
-        )}
-        {messages.map((message, index) => (
-          <article key={index} className={message.role === 'user' ? styles.user : styles.assistant}>
-            <strong>{t(`auth_tryout.${message.role}`)}</strong>
-            <div className={styles.message}>{message.content}</div>
-            {message.elapsedMs !== undefined && (
-              <small>
-                {t('auth_tryout.duration', { seconds: (message.elapsedMs / 1000).toFixed(2) })}
-              </small>
-            )}
-            {message.truncated && <small>{t('auth_tryout.truncated')}</small>}
-          </article>
-        ))}
-        {sending && (
-          <>
-            <article className={styles.user}>
-              <strong>{t('auth_tryout.user')}</strong>
-              <div className={styles.message}>{draft}</div>
-            </article>
-            <p className={styles.waiting} role="status">
-              <LoadingSpinner size={18} />
-              {t('auth_tryout.waiting')}
-            </p>
-          </>
-        )}
-      </div>
-      {error && (
-        <div className={styles.error} role="alert">
-          {error}
-        </div>
-      )}
-      {notice && (
-        <p className={styles.hint} role="status">
-          {notice}
-        </p>
-      )}
-      <form onSubmit={(event) => void send(event)} className={styles.composer}>
-        <label>
-          <span>{t('auth_tryout.input')}</span>
-          <textarea
-            rows={3}
-            value={draft}
-            maxLength={4000}
+    <Sheet
+      open={open}
+      onClose={onClose}
+      size="lg"
+      title={t('auth_tryout.title')}
+      description={label}
+    >
+      <div className={styles.chat}>
+        <div className={styles.toolbar}>
+          <div className={styles.modelField}>
+            <span>{t('auth_tryout.model')}</span>
+            <Select
+              value={model}
+              options={(models ?? []).map((m) => ({
+                value: m.id,
+                label: m.label === m.id ? m.id : `${m.label} · ${m.id}`,
+              }))}
+              placeholder={t('auth_tryout.choose_model')}
+              ariaLabel={t('auth_tryout.model')}
+              disabled={!models?.length || sending || messages.length > 0}
+              onChange={setModel}
+            />
+          </div>
+          <Button
+            variant="secondary"
             disabled={sending}
-            placeholder={t('auth_tryout.placeholder')}
-            onChange={(event) => setDraft(event.target.value)}
-            onKeyDown={(event) => {
-              if (
-                event.key === 'Enter' &&
-                (event.ctrlKey || event.metaKey) &&
-                !event.nativeEvent.isComposing
-              ) {
-                event.preventDefault();
-                void send();
-              }
+            onClick={() => {
+              setMessages([]);
+              setDraft('');
+              setError('');
+              setNotice('');
+              setConversationId(crypto.randomUUID());
             }}
-          />
-        </label>
-        <div className={styles.actions}>
-          <span>{t('auth_tryout.turns', { count: messages.length / 2 })}</span>
-          {sending ? (
-            <Button
-              type="button"
-              variant="secondary"
-              onClick={() => {
-                flight.current?.abort();
-                setNotice(t('auth_tryout.stopped'));
-              }}
+          >
+            {t('auth_tryout.new_chat')}
+          </Button>
+        </div>
+        <p className={styles.hint}>{t('auth_tryout.hint')}</p>
+        {modelError && (
+          <p className={styles.error} role="alert">
+            {t('auth_tryout.models_failed')}: {modelError}
+          </p>
+        )}
+        {models === null && !modelError && (
+          <p role="status">
+            <LoadingSpinner size={16} /> {t('auth_tryout.loading_models')}
+          </p>
+        )}
+        {models?.length === 0 && <p className={styles.hint}>{t('auth_tryout.no_models')}</p>}
+        <div
+          ref={transcript}
+          className={styles.transcript}
+          role="log"
+          aria-label={t('auth_tryout.transcript')}
+          aria-live="polite"
+        >
+          {messages.length === 0 && !sending && (
+            <p className={styles.empty}>{t('auth_tryout.welcome')}</p>
+          )}
+          {messages.map((message, index) => (
+            <article
+              key={index}
+              className={message.role === 'user' ? styles.user : styles.assistant}
             >
-              {t('auth_tryout.stop')}
-            </Button>
-          ) : (
-            <Button
-              type="submit"
-              disabled={!open || !model || !draft.trim() || messages.length >= 40}
-            >
-              {t('auth_tryout.send')}
-            </Button>
+              <strong>{t(`auth_tryout.${message.role}`)}</strong>
+              <div className={styles.message}>{message.content}</div>
+              {message.elapsedMs !== undefined && (
+                <small>
+                  {t('auth_tryout.duration', { seconds: (message.elapsedMs / 1000).toFixed(2) })}
+                </small>
+              )}
+              {message.truncated && <small>{t('auth_tryout.truncated')}</small>}
+            </article>
+          ))}
+          {sending && (
+            <>
+              <article className={styles.user}>
+                <strong>{t('auth_tryout.user')}</strong>
+                <div className={styles.message}>{draft}</div>
+              </article>
+              <p className={styles.waiting} role="status">
+                <LoadingSpinner size={18} />
+                {t('auth_tryout.waiting')}
+              </p>
+            </>
           )}
         </div>
-      </form>
-    </div>
+        {error && (
+          <div className={styles.error} role="alert">
+            {error}
+          </div>
+        )}
+        {notice && (
+          <p className={styles.hint} role="status">
+            {notice}
+          </p>
+        )}
+        <form onSubmit={(event) => void send(event)} className={styles.composer}>
+          <label>
+            <span>{t('auth_tryout.input')}</span>
+            <textarea
+              rows={3}
+              value={draft}
+              maxLength={4000}
+              disabled={sending}
+              placeholder={t('auth_tryout.placeholder')}
+              onChange={(event) => setDraft(event.target.value)}
+              onKeyDown={(event) => {
+                if (
+                  event.key === 'Enter' &&
+                  (event.ctrlKey || event.metaKey) &&
+                  !event.nativeEvent.isComposing
+                ) {
+                  event.preventDefault();
+                  void send();
+                }
+              }}
+            />
+          </label>
+          <div className={styles.actions}>
+            <span>{t('auth_tryout.turns', { count: messages.length / 2 })}</span>
+            {sending ? (
+              <Button
+                type="button"
+                variant="secondary"
+                onClick={() => {
+                  flight.current?.abort();
+                  setNotice(t('auth_tryout.stopped'));
+                }}
+              >
+                {t('auth_tryout.stop')}
+              </Button>
+            ) : (
+              <Button
+                type="submit"
+                disabled={!open || !model || !draft.trim() || messages.length >= 40}
+              >
+                {t('auth_tryout.send')}
+              </Button>
+            )}
+          </div>
+        </form>
+      </div>
+    </Sheet>
   );
 }
