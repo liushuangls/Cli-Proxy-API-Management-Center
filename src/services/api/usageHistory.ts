@@ -24,6 +24,7 @@ export type UsageStats = {
   success: number;
   failed: number;
   successRate: number | null;
+  cacheHitRate: number | null;
   additionalEvents: number;
   uncertainEvents: number;
   tokens: UsageTokens;
@@ -99,11 +100,23 @@ const stats = (value: unknown): UsageStats => {
     success: count(raw.success),
     failed: count(raw.failed),
     successRate: null,
+    cacheHitRate: null,
     additionalEvents: count(raw.additional_events),
     uncertainEvents: count(raw.uncertain_events),
     tokens: tokens(raw.tokens),
   };
   if (result.requests !== result.success + result.failed) invalid();
+  if (result.tokens.input === 0) {
+    if (raw.cache_hit_rate !== null) invalid();
+  } else {
+    if (
+      typeof raw.cache_hit_rate !== 'number' ||
+      !Number.isFinite(raw.cache_hit_rate) ||
+      Math.abs(raw.cache_hit_rate - (result.tokens.cacheRead / result.tokens.input) * 100) > 0.00001
+    )
+      invalid();
+    result.cacheHitRate = raw.cache_hit_rate as number;
+  }
   if (result.requests === 0) {
     if (raw.success_rate !== null) invalid();
   } else {

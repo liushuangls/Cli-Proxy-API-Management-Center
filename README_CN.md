@@ -71,6 +71,8 @@
 此 fork 的 `self` 分支在认证文件卡片底部增加「用量统计」，按模型查看输入、输出、缓存读写、
 推理 token、成功率及分页请求明细，支持最近 24 小时、7 天、30 天。需要配套的 CLIProxyAPI
 `self` 后端；历史由服务端持续保存，默认保留 30 天，关闭浏览器不影响采集。
+卡片还提供「试用」聊天抽屉，固定当前账号进行多轮文本对话，可停止生成、开始新对话。
+用量统计包含按累计输入 token 计算的缓存率。
 `main` 保留用于同步上游。镜像包含固定提交的前端，部署和更新方式见
 [self 镜像说明](https://github.com/liushuangls/CLIProxyAPI/blob/self/docs/self-deployment_CN.md)。
 

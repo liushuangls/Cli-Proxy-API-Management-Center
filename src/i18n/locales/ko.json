@@ -2533,6 +2533,37 @@
     "unsupported": "이 서버는 인증별 사용 내역을 지원하지 않습니다. 사용자 정의 self 이미지를 사용하세요.",
     "error_stream_truncated": "스트림 중단",
     "error_request_scoped": "요청 오류",
-    "error_force_cooldown": "대기 시간 적용"
+    "error_force_cooldown": "대기 시간 적용",
+    "cache_rate": "캐시 적중률",
+    "cache_rate_note": "캐시 읽기 토큰 / 전체 입력 토큰으로 계산합니다. 합계는 토큰 합산 기준이며 입력이 없으면 —로 표시합니다."
+  },
+  "auth_tryout": {
+    "title": "체험",
+    "open": "{{name}} 체험",
+    "disabled": "이 인증 파일을 활성화한 후 체험하세요",
+    "model": "모델",
+    "choose_model": "모델 선택",
+    "new_chat": "새 대화",
+    "hint": "이 인증 파일을 사용하며 사용량에 기록됩니다. 닫으면 생성을 중지하고 대화는 유지됩니다. 카드를 바꾸거나 페이지를 새로고침하면 대화가 지워집니다. 모델 변경은 새 대화에서 가능합니다.",
+    "welcome": "모델을 선택하고 대화를 시작하세요.",
+    "input": "메시지",
+    "placeholder": "메시지를 입력하세요…",
+    "user": "사용자",
+    "assistant": "도우미",
+    "send": "보내기",
+    "stop": "중지",
+    "stopped": "중지했습니다. 입력 내용은 다시 보낼 수 있도록 유지됩니다.",
+    "waiting": "응답을 기다리는 중…",
+    "loading_models": "모델 불러오는 중…",
+    "no_models": "이 인증 파일에 사용 가능한 텍스트 모델이 없습니다.",
+    "models_failed": "모델을 불러올 수 없습니다",
+    "transcript": "대화 기록",
+    "duration": "{{seconds}}초",
+    "truncated": "출력 한도에 도달했습니다. 계속 답변하도록 요청할 수 있습니다.",
+    "turns": "{{count}} / 20회 · Ctrl/⌘ + Enter",
+    "turn_limit": "20회 한도에 도달했습니다. 새 대화를 시작하세요.",
+    "context_limit": "대화가 32,000자를 초과했습니다. 새 대화를 시작하세요.",
+    "empty": "메시지를 입력하세요.",
+    "failed": "요청에 실패했습니다."
   }
 }

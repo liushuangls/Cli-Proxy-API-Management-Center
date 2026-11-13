@@ -26,6 +26,7 @@ import {
 import { AuthFileCard } from '@/features/authFiles/components/AuthFileCard';
 import { AuthFileDetailsSheet } from '@/features/authFiles/components/AuthFileDetailsSheet';
 import { AuthFileUsageSheet } from '@/features/authFiles/components/AuthFileUsageSheet';
+import { AuthFileTryoutSheet } from '@/features/authFiles/components/AuthFileTryoutSheet';
 import { apiClient } from '@/services/api/client';
 import type { AuthFileItem } from '@/types';
 import { getAuthFileRefreshKey } from '@/features/authFiles/manualRefresh';
@@ -102,6 +103,11 @@ export function AuthFilesPage() {
   // Compact is the page's existing compact card; it keeps its own page size.
   const compactMode = layout === 'compact';
   const [search, setSearch] = useState('');
+  const [tryoutTarget, setTryoutTarget] = useState<{
+    file: AuthFileItem;
+    revision: number;
+    open: boolean;
+  } | null>(null);
   const [usageTarget, setUsageTarget] = useState<{ file: AuthFileItem; revision: number } | null>(
     null
   );
@@ -600,6 +606,10 @@ export function AuthFilesPage() {
       entranceDelayMs={cardEntranceDelay(index)}
       onShowModels={showModels}
       onShowUsage={(file) => setUsageTarget({ file, revision: apiClient.getConnectionRevision() })}
+      onTryout={(file) => {
+        setUsageTarget(null);
+        setTryoutTarget({ file, revision: apiClient.getConnectionRevision(), open: true });
+      }}
       onDownload={handleDownload}
       onManualRefresh={handleManualRefresh}
       onCooldownReset={handleCooldownReset}
@@ -813,6 +823,13 @@ export function AuthFilesPage() {
       <AuthFileUsageSheet
         file={usageTarget?.revision === apiClient.getConnectionRevision() ? usageTarget.file : null}
         onClose={() => setUsageTarget(null)}
+      />
+      <AuthFileTryoutSheet
+        file={
+          tryoutTarget?.revision === apiClient.getConnectionRevision() ? tryoutTarget.file : null
+        }
+        open={tryoutTarget?.open === true}
+        onClose={() => setTryoutTarget((current) => (current ? { ...current, open: false } : null))}
       />
 
       <BatchActionBar

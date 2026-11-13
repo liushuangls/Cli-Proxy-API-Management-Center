@@ -2533,6 +2533,37 @@
     "unsupported": "Sunucu bu geçmişi desteklemiyor. Özel self imajını kullanın.",
     "error_stream_truncated": "Akış kesildi",
     "error_request_scoped": "İstek hatası",
-    "error_force_cooldown": "Bekleme süresi etkinleştirildi"
+    "error_force_cooldown": "Bekleme süresi etkinleştirildi",
+    "cache_rate": "Önbellek oranı",
+    "cache_rate_note": "Önbellek okuma tokenları / toplam girdi tokenları. Toplam tokenlar üzerinden hesaplanır; girdi yoksa — gösterilir."
+  },
+  "auth_tryout": {
+    "title": "Dene",
+    "open": "{{name}} ile dene",
+    "disabled": "Denemek için bu kimlik bilgisini etkinleştirin",
+    "model": "Model",
+    "choose_model": "Model seçin",
+    "new_chat": "Yeni sohbet",
+    "hint": "Bu kimlik bilgisi kullanılır ve kullanıma kaydedilir. Kapatmak üretimi durdurur ancak sohbeti korur. Kart değiştirmek veya sayfayı yenilemek sohbeti temizler. Modeli değiştirmek için yeni sohbet başlatın.",
+    "welcome": "Bir model seçip sohbet başlatın.",
+    "input": "Mesaj",
+    "placeholder": "Mesajınızı yazın…",
+    "user": "Siz",
+    "assistant": "Asistan",
+    "send": "Gönder",
+    "stop": "Durdur",
+    "stopped": "Durduruldu. Mesajınız yeniden göndermek için korundu.",
+    "waiting": "Yanıt bekleniyor…",
+    "loading_models": "Modeller yükleniyor…",
+    "no_models": "Bu kimlik bilgisi için metin modeli yok.",
+    "models_failed": "Modeller yüklenemedi",
+    "transcript": "Sohbet geçmişi",
+    "duration": "{{seconds}} sn",
+    "truncated": "Çıktı sınırına ulaşıldı; devam etmesini isteyebilirsiniz.",
+    "turns": "{{count}} / 20 tur · Ctrl/⌘ + Enter",
+    "turn_limit": "20 tur sınırına ulaşıldı. Yeni sohbet başlatın.",
+    "context_limit": "Sohbet 32.000 karakteri aştı. Yeni sohbet başlatın.",
+    "empty": "Bir mesaj girin.",
+    "failed": "İstek başarısız."
   }
 }

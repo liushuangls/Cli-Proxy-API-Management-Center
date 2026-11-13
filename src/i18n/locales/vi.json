@@ -2539,6 +2539,37 @@
     "unsupported": "Máy chủ chưa hỗ trợ lịch sử này. Hãy dùng ảnh self tùy chỉnh.",
     "error_stream_truncated": "Luồng bị gián đoạn",
     "error_request_scoped": "Lỗi yêu cầu",
-    "error_force_cooldown": "Đã kích hoạt thời gian chờ"
+    "error_force_cooldown": "Đã kích hoạt thời gian chờ",
+    "cache_rate": "Tỷ lệ bộ nhớ đệm",
+    "cache_rate_note": "Tỷ lệ = token đọc bộ nhớ đệm / tổng token đầu vào. Tính theo tổng token; không có đầu vào hiển thị —."
+  },
+  "auth_tryout": {
+    "title": "Dùng thử",
+    "open": "Dùng thử {{name}}",
+    "disabled": "Bật thông tin xác thực này để dùng thử",
+    "model": "Mô hình",
+    "choose_model": "Chọn mô hình",
+    "new_chat": "Trò chuyện mới",
+    "hint": "Dùng thông tin xác thực này và tính vào thống kê. Đóng sẽ dừng tạo nhưng giữ hội thoại. Đổi thẻ hoặc tải lại trang sẽ xóa hội thoại. Bắt đầu hội thoại mới để đổi mô hình.",
+    "welcome": "Chọn mô hình và bắt đầu trò chuyện.",
+    "input": "Tin nhắn",
+    "placeholder": "Nhập tin nhắn…",
+    "user": "Bạn",
+    "assistant": "Trợ lý",
+    "send": "Gửi",
+    "stop": "Dừng",
+    "stopped": "Đã dừng. Nội dung được giữ để gửi lại.",
+    "waiting": "Đang chờ phản hồi…",
+    "loading_models": "Đang tải mô hình…",
+    "no_models": "Không có mô hình văn bản cho thông tin xác thực này.",
+    "models_failed": "Không tải được mô hình",
+    "transcript": "Hội thoại",
+    "duration": "{{seconds}} giây",
+    "truncated": "Đã đạt giới hạn đầu ra; bạn có thể yêu cầu tiếp tục.",
+    "turns": "{{count}} / 20 lượt · Ctrl/⌘ + Enter",
+    "turn_limit": "Đã đạt giới hạn 20 lượt. Bắt đầu hội thoại mới.",
+    "context_limit": "Hội thoại vượt 32.000 ký tự. Bắt đầu hội thoại mới.",
+    "empty": "Hãy nhập tin nhắn.",
+    "failed": "Yêu cầu thất bại."
   }
 }

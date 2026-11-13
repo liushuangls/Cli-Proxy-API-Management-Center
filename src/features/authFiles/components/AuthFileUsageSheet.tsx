@@ -170,6 +170,10 @@ function UsageContent({ authIndex }: { authIndex: string }) {
               <strong>{rate(data.totals.successRate)}</strong>
             </div>
             <div>
+              <span title={t('auth_usage.cache_rate_note')}>{t('auth_usage.cache_rate')}</span>
+              <strong>{rate(data.totals.cacheHitRate)}</strong>
+            </div>
+            <div>
               <span>{t('auth_usage.total')}</span>
               <strong>{number(data.totals.tokens.total)}</strong>
             </div>
@@ -184,6 +188,7 @@ function UsageContent({ authIndex }: { authIndex: string }) {
             })}
           </p>
           <p className={styles.note}>{t('auth_usage.accounting_note')}</p>
+          <p className={styles.meta}>{t('auth_usage.cache_rate_note')}</p>
           {data.totals.uncertainEvents > 0 && (
             <p className={styles.warning} role="status">
               {t('auth_usage.uncertain', { count: data.totals.uncertainEvents })}
@@ -205,6 +210,7 @@ function UsageContent({ authIndex }: { authIndex: string }) {
                     <TableHead alignRight>{t('auth_usage.requests')}</TableHead>
                     <TableHead alignRight>{t('auth_usage.success_failed')}</TableHead>
                     <TableHead alignRight>{t('auth_usage.success_rate')}</TableHead>
+                    <TableHead alignRight>{t('auth_usage.cache_rate')}</TableHead>
                     {tokenHeads}
                   </TableRow>
                 </TableHeader>
@@ -219,6 +225,7 @@ function UsageContent({ authIndex }: { authIndex: string }) {
                         {number(model.success)} / {number(model.failed)}
                       </TableCell>
                       <TableCell alignRight>{rate(model.successRate)}</TableCell>
+                      <TableCell alignRight>{rate(model.cacheHitRate)}</TableCell>
                       {tokenCells(model.tokens)}
                     </TableRow>
                   ))}
@@ -233,6 +240,7 @@ function UsageContent({ authIndex }: { authIndex: string }) {
                     <TableHead>{t('auth_usage.model')}</TableHead>
                     <TableHead>{t('auth_usage.status')}</TableHead>
                     <TableHead alignRight>{t('auth_usage.latency')}</TableHead>
+                    <TableHead alignRight>{t('auth_usage.cache_rate')}</TableHead>
                     {tokenHeads}
                   </TableRow>
                 </TableHeader>
@@ -275,6 +283,13 @@ function UsageContent({ authIndex }: { authIndex: string }) {
                         )}
                       </TableCell>
                       <TableCell alignRight>{number(event.latencyMs)} ms</TableCell>
+                      <TableCell alignRight>
+                        {rate(
+                          event.tokens.input > 0
+                            ? (event.tokens.cacheRead / event.tokens.input) * 100
+                            : null
+                        )}
+                      </TableCell>
                       {tokenCells(event.tokens)}
                     </TableRow>
                   ))}

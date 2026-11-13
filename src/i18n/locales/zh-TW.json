@@ -2555,6 +2555,37 @@
     "unsupported": "目前伺服器不支援認證檔案用量歷史，請使用自訂 self 映像。",
     "error_stream_truncated": "串流回應中斷",
     "error_request_scoped": "請求錯誤",
-    "error_force_cooldown": "觸發冷卻"
+    "error_force_cooldown": "觸發冷卻",
+    "cache_rate": "快取率",
+    "cache_rate_note": "快取率 = 快取讀取 token ÷ 輸入 token；彙總依累計 token 計算，沒有輸入時顯示 —。"
+  },
+  "auth_tryout": {
+    "title": "試用",
+    "open": "試用 {{name}}",
+    "disabled": "啟用此認證檔案後即可試用",
+    "model": "模型",
+    "choose_model": "請選擇模型",
+    "new_chat": "新對話",
+    "hint": "固定使用此認證檔案，呼叫計入用量統計。關閉後可繼續，關閉時停止生成；切換卡片或重新整理頁面會清空對話。開始新對話後可更換模型。",
+    "welcome": "選擇模型，開始一段對話。",
+    "input": "輸入訊息",
+    "placeholder": "輸入你想問的內容…",
+    "user": "你",
+    "assistant": "助手",
+    "send": "傳送",
+    "stop": "停止",
+    "stopped": "已停止，輸入內容保留，可重新傳送。",
+    "waiting": "正在等待回應…",
+    "loading_models": "正在載入模型…",
+    "no_models": "此認證檔案暫無可用的文字模型。",
+    "models_failed": "模型載入失敗",
+    "transcript": "聊天記錄",
+    "duration": "耗時 {{seconds}} 秒",
+    "truncated": "已達輸出上限，可以繼續追問。",
+    "turns": "{{count}} / 20 輪 · Ctrl/⌘ + Enter 傳送",
+    "turn_limit": "已達 20 輪上限，請開始新對話。",
+    "context_limit": "對話超過 32,000 字元，請開始新對話。",
+    "empty": "請輸入訊息。",
+    "failed": "請求失敗。"
   }
 }

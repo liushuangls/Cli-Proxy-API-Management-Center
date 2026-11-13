@@ -18,6 +18,7 @@ function fixture() {
     success: 1,
     failed: 1,
     success_rate: 50,
+    cache_hit_rate: 40,
     additional_events: 0,
     uncertain_events: 0,
     tokens,
@@ -54,6 +55,28 @@ function fixture() {
 }
 
 describe('credential usage response', () => {
+  test('cache rate uses input rather than total tokens, and remains unknown without input', () => {
+    const raw = fixture();
+    raw.totals.cache_hit_rate = 90;
+    expect(() => normalizeCredentialUsage(raw)).toThrow();
+    const zero = fixture();
+    const emptyTokens = {
+      input: 0,
+      output: 50,
+      cache_read: 0,
+      cache_write: 0,
+      reasoning: 0,
+      total: 50,
+      unclassified: 0,
+    };
+    expect(
+      normalizeCredentialUsage({
+        ...zero,
+        models: [],
+        totals: { ...zero.totals, tokens: emptyTokens, cache_hit_rate: null },
+      }).totals.cacheHitRate
+    ).toBeNull();
+  });
   test('normalizes fields without adding token subsets twice', () => {
     const data = normalizeCredentialUsage(fixture());
     expect(data.totals.tokens).toEqual({
@@ -71,6 +94,7 @@ describe('credential usage response', () => {
       failed: true,
     });
     expect(data.models[0].successRate).toBe(50);
+    expect(data.totals.cacheHitRate).toBe(40);
   });
 
   test('preserves null success rate when there are no attempts', () => {

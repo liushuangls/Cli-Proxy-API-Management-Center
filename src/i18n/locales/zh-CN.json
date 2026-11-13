@@ -2527,6 +2527,37 @@
     "unsupported": "当前服务端不支持认证文件用量历史，请使用定制 self 镜像。",
     "error_stream_truncated": "流式响应中断",
     "error_request_scoped": "请求错误",
-    "error_force_cooldown": "触发冷却"
+    "error_force_cooldown": "触发冷却",
+    "cache_rate": "缓存率",
+    "cache_rate_note": "缓存率 = 缓存读取 token ÷ 输入 token；汇总按累计 token 计算，没有输入时显示 —。"
+  },
+  "auth_tryout": {
+    "title": "试用",
+    "open": "试用 {{name}}",
+    "disabled": "启用此认证文件后即可试用",
+    "model": "模型",
+    "choose_model": "请选择模型",
+    "new_chat": "新对话",
+    "hint": "固定使用此认证文件，调用计入用量统计。关闭后可继续，关闭时停止生成；切换卡片或刷新页面会清空对话。开始新对话后可更换模型。",
+    "welcome": "选择模型，开始一段对话。",
+    "input": "输入消息",
+    "placeholder": "输入你想问的内容…",
+    "user": "你",
+    "assistant": "助手",
+    "send": "发送",
+    "stop": "停止",
+    "stopped": "已停止，输入内容保留，可重新发送。",
+    "waiting": "正在等待响应…",
+    "loading_models": "正在加载模型…",
+    "no_models": "此认证文件暂无可用的文本模型。",
+    "models_failed": "模型加载失败",
+    "transcript": "聊天记录",
+    "duration": "耗时 {{seconds}} 秒",
+    "truncated": "已达到输出上限，可以继续追问。",
+    "turns": "{{count}} / 20 轮 · Ctrl/⌘ + Enter 发送",
+    "turn_limit": "已达到 20 轮上限，请开始新对话。",
+    "context_limit": "对话超过 32,000 字符，请开始新对话。",
+    "empty": "请输入消息。",
+    "failed": "请求失败。"
   }
 }

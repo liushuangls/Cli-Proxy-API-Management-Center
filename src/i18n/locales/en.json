@@ -2533,6 +2533,37 @@
     "unsupported": "This server does not support credential usage history. Use the custom self image.",
     "error_stream_truncated": "Stream interrupted",
     "error_request_scoped": "Request error",
-    "error_force_cooldown": "Cooldown triggered"
+    "error_force_cooldown": "Cooldown triggered",
+    "cache_rate": "Cache hit rate",
+    "cache_rate_note": "Cache hit rate = cache-read tokens / total input tokens. Aggregates use summed tokens; no input is shown as —."
+  },
+  "auth_tryout": {
+    "title": "Try chat",
+    "open": "Try {{name}}",
+    "disabled": "Enable this credential to try it",
+    "model": "Model",
+    "choose_model": "Choose a model",
+    "new_chat": "New chat",
+    "hint": "Uses this credential and counts toward usage. Close and reopen to continue; closing stops generation. Switching cards or reloading clears the chat. Start a new chat to change models.",
+    "welcome": "Choose a model and start a conversation.",
+    "input": "Message",
+    "placeholder": "Enter a message…",
+    "user": "You",
+    "assistant": "Assistant",
+    "send": "Send",
+    "stop": "Stop",
+    "stopped": "Stopped. Your message is kept for retry.",
+    "waiting": "Waiting for the response…",
+    "loading_models": "Loading models…",
+    "no_models": "No text models are available for this credential.",
+    "models_failed": "Could not load models",
+    "transcript": "Conversation",
+    "duration": "{{seconds}} s",
+    "truncated": "Output limit reached; you can ask the model to continue.",
+    "turns": "{{count}} / 20 turns · Ctrl/⌘ + Enter to send",
+    "turn_limit": "20-turn limit reached. Start a new chat.",
+    "context_limit": "The conversation exceeds 32,000 characters. Start a new chat.",
+    "empty": "Enter a message.",
+    "failed": "Request failed."
   }
 }
